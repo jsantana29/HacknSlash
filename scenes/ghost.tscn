@@ -1,0 +1,88 @@
+[gd_scene load_steps=13 format=3 uid="uid://dxd0bhfgpwhyi"]
+
+[ext_resource type="Texture2D" uid="uid://dfdto7rela0vm" path="res://assets/Ghost/FrameSheets/32x32Ghost_Float.png" id="1_5siak"]
+[ext_resource type="Script" path="res://scripts/ghost.gd" id="2_lu620"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ekair"]
+radius = 5.09902
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wmkd7"]
+atlas = ExtResource("1_5siak")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qgf6q"]
+atlas = ExtResource("1_5siak")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ew4af"]
+atlas = ExtResource("1_5siak")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h21iy"]
+atlas = ExtResource("1_5siak")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1sgt1"]
+atlas = ExtResource("1_5siak")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_12r6x"]
+atlas = ExtResource("1_5siak")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_dfmgs"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wmkd7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qgf6q")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ew4af")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h21iy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1sgt1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_12r6x")
+}],
+"loop": true,
+"name": &"float",
+"speed": 10.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_rf8oh"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_caxfe"]
+radius = 173.003
+
+[node name="Ghost" type="CharacterBody2D"]
+script = ExtResource("2_lu620")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_ekair")
+disabled = true
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_dfmgs")
+animation = &"float"
+
+[node name="Hurtbox" type="Area2D" parent="." groups=["ghost"]]
+collision_layer = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+shape = SubResource("CircleShape2D_rf8oh")
+
+[node name="DetectionRadius" type="Area2D" parent="."]
+collision_layer = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionRadius"]
+shape = SubResource("CircleShape2D_caxfe")
+
+[connection signal="body_entered" from="DetectionRadius" to="." method="_on_detection_radius_body_entered"]
+[connection signal="body_exited" from="DetectionRadius" to="." method="_on_detection_radius_body_exited"]

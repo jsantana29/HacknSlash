@@ -1,0 +1,27 @@
+[gd_scene load_steps=5 format=3 uid="uid://dtuuyycj0qdvs"]
+
+[ext_resource type="Script" path="res://scripts/BloodDrop.gd" id="1_is8yl"]
+[ext_resource type="Texture2D" uid="uid://c3pe13ytld51y" path="res://assets/blood_drop.png" id="2_105cm"]
+[ext_resource type="Script" path="res://scripts/BloodTimer.gd" id="3_pg27n"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ghmcw"]
+radius = 9.05539
+
+[node name="BloodDrop" type="Node2D"]
+script = ExtResource("1_is8yl")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(-1, -1)
+texture = ExtResource("2_105cm")
+
+[node name="Area2D" type="Area2D" parent="."]
+position = Vector2(-569, -293)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(569, 293)
+shape = SubResource("CircleShape2D_ghmcw")
+
+[node name="BloodTimer" type="Timer" parent="."]
+script = ExtResource("3_pg27n")
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
